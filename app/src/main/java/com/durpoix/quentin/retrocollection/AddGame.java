@@ -19,7 +19,7 @@ public class AddGame extends AppCompatActivity {
         champ = (EditText)findViewById(R.id.editTextAddNameGame);
 
         Intent AddGame = getIntent();
-        if(AddGame.hasExtra("ChangeGamePosition")) {
+        if(AddGame.hasExtra("ChangeGamePosition")) {            //Si c'est une modification
             ChangeGamePosition = AddGame.getIntExtra("ChangeGamePosition", -1);
         }
         if(AddGame.hasExtra("ChangeGame")) {
@@ -39,7 +39,7 @@ public class AddGame extends AppCompatActivity {
 
     public void AddGame(View view) {
         Intent retour = new Intent();
-        if(ChangeGamePosition!=-1){
+        if(ChangeGamePosition!=-1){     //Si ça été une modification
             retour.putExtra("ChangeGamePositon",ChangeGamePosition);
         }
         retour.putExtra("NameGame",champ.getText().toString());
