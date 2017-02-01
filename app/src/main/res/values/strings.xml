@@ -3,4 +3,5 @@
     <string name="btnGames">Games</string>
     <string name="TextGame">My games</string>
     <string name="title_activity_games">Games</string>
+    <string name="buttonAddGame">Add</string>
 </resources>

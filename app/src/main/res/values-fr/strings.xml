@@ -3,4 +3,6 @@
     <string name="app_name">RetroCollection</string>
     <string name="btnGames">Jeux</string>
     <string name="TextGame">Mes jeux</string>
+    <string name="buttonAddGame">Ajouter</string>
+    <string name="title_activity_games">Jeux</string>
 </resources>
