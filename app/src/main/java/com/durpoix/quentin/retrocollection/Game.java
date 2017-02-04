@@ -1,15 +1,17 @@
 package com.durpoix.quentin.retrocollection;
 
+import android.app.ListActivity;
+
 /**
  * Created by Coco on 01/02/2017.
  */
-public class Game {
+public class Game extends ListActivity{
     private String Name;
     private String Console;
     private String Type;
-    private String Price;
+    private float Price;
 
-    public Game(String Name, String Console, String Price){
+    public Game(String Name, String Console, float Price){
         this.Name=Name;
         this.Console=Console;
         this.Price=Price;
@@ -39,11 +41,11 @@ public class Game {
         Name = name;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return Price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         Price = price;
     }
 }

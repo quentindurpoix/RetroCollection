@@ -1,6 +1,7 @@
 package com.durpoix.quentin.retrocollection;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,18 +12,34 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Games extends AppCompatActivity {
+public class Games extends ListActivity{
     ListView listview;
+    private Game jeu1;
+    private Game jeu2;
+    private Game jeu3;
+    private Game jeu4;
+    private Game jeu5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        jeu1 = new Game("Resident Evil VII","PS4", 70);
+        jeu2 = new Game("DOOM","PS4", 20);
+        jeu3 = new Game("Battlefield 1","PS4", 50);
+        jeu4 = new Game("Oddworld : L'Exode d'Abe","PSX", 20);
+        jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);
+        Game[] jeux = new Game[]{jeu1,jeu2,jeu3,jeu4,jeu5};
+
+        MonAdaptateurDeListe adaptateur = new MonAdaptateurDeListe(this, jeux);
+        setListAdapter(adaptateur);
+
         setContentView(R.layout.activity_games);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       // setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
