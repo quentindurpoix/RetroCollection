@@ -21,8 +21,6 @@ import java.util.List;
  */
 public class MonAdaptateurDeListe extends ArrayAdapter<Game> {
 
-    private Integer[] tab_images_pour_la_liste = {
-            R.drawable.jeu1, R.drawable.jeu2, R.drawable.jeu3, R.drawable.jeu4, R.drawable.jeu5 };
 
     public MonAdaptateurDeListe(Context context, List<Game> games) {
         super(context, R.layout.game_show, games);
@@ -53,7 +51,7 @@ public class MonAdaptateurDeListe extends ArrayAdapter<Game> {
         String prix = game.getPrice()+"€";
         viewHolder.emplacement.setText(prix);
         viewHolder.description.setText(game.getConsole());
-        //viewHolder.photo.setImageDrawable(new ColorDrawable(YELLOW));
+        viewHolder.photo.setImageResource(game.getImg());
 
 
 

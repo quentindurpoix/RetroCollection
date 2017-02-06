@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/photo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         tools:background="#AAA"
         />
 
@@ -41,8 +41,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Emplacement du produit"
-        android:layout_alignBottom="@+id/photo"
+        android:layout_below="@+id/description"
         android:layout_alignLeft="@+id/description"
-        android:layout_alignStart="@+id/description" />
+        android:layout_alignStart="@+id/description"
+        android:layout_marginTop="12dp" />
 
 </RelativeLayout>
