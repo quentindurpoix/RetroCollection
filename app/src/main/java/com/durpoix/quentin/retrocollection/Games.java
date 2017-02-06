@@ -16,7 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Games extends ListActivity{
+import java.util.ArrayList;
+import java.util.List;
+
+public class Games extends AppCompatActivity{
     ListView listview;
     private Game jeu1;
     private Game jeu2;
@@ -32,18 +35,24 @@ public class Games extends ListActivity{
         jeu3 = new Game("Battlefield 1","PS4", 50);
         jeu4 = new Game("Oddworld : L'Exode d'Abe","PSX", 20);
         jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);
-        Game[] jeux = new Game[]{jeu1,jeu2,jeu3,jeu4,jeu5};
 
-        MonAdaptateurDeListe adaptateur = new MonAdaptateurDeListe(this, jeux);
-        setListAdapter(adaptateur);
+
+
 
         setContentView(R.layout.activity_games);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         listview = (ListView) findViewById(R.id.listView);
+
+
+        List<Game> listeJeux = genererJeux();
+        MonAdaptateurDeListe adapter = new MonAdaptateurDeListe(Games.this, listeJeux);
+
+
+        listview.setAdapter(adapter);
 
        listview.setOnItemClickListener(
                new AdapterView.OnItemClickListener() {
@@ -98,6 +107,16 @@ public class Games extends ListActivity{
                 }
                 break;
         }
+    }
+
+    private List<Game> genererJeux(){
+        List<Game> jeux = new ArrayList<Game>();
+        jeux.add(jeu1);
+        jeux.add(jeu2);
+        jeux.add(jeu3);
+        jeux.add(jeu4);
+        jeux.add(jeu5);
+        return jeux;
     }
 
 }

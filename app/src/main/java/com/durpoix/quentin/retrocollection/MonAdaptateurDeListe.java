@@ -1,12 +1,20 @@
 package com.durpoix.quentin.retrocollection;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * Created by Coco on 04/02/2017.
@@ -16,29 +24,47 @@ public class MonAdaptateurDeListe extends ArrayAdapter<Game> {
     private Integer[] tab_images_pour_la_liste = {
             R.drawable.jeu1, R.drawable.jeu2, R.drawable.jeu3, R.drawable.jeu4, R.drawable.jeu5 };
 
+    public MonAdaptateurDeListe(Context context, List<Game> games) {
+        super(context, R.layout.game_show, games);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        
-        LayoutInflater inflater = (LayoutInflater)
-                getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(convertView == null){
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_show,parent, false);
+        }
 
-        View rowView = inflater.inflate(R.layout.game_show, parent, false);
+        TweetViewHolder viewHolder = (TweetViewHolder) convertView.getTag();
+        if(viewHolder == null){
+            viewHolder = new TweetViewHolder();
+            viewHolder.nom = (TextView) convertView.findViewById(R.id.nom);
+            viewHolder.emplacement = (TextView) convertView.findViewById(R.id.emplacement);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.description);
+            viewHolder.photo= (ImageView) convertView.findViewById(R.id.photo);
+            convertView.setTag(viewHolder);
+        }
 
-        TextView textView = (TextView) rowView.findViewById(R.id.label);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+        //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
+        Game game = getItem(position);
 
-        textView.setText(getItem(position).getName());
+        //il ne reste plus qu'à remplir notre vue
+        viewHolder.nom.setText(game.getName());
+        String prix = game.getPrice()+"€";
+        viewHolder.emplacement.setText(prix);
+        viewHolder.description.setText(game.getConsole());
+        //viewHolder.photo.setImageDrawable(new ColorDrawable(YELLOW));
 
-        if(convertView == null )
-            imageView.setImageResource(tab_images_pour_la_liste[position]);
-        else
-            rowView = (View)convertView;
 
-        return rowView;
+
+        return convertView;
     }
 
-    public MonAdaptateurDeListe(Context context, Game[] jeux) {
-        super(context, R.layout.game_show, jeux);
+    private class TweetViewHolder{
+        public TextView emplacement;
+        public TextView description;
+        public ImageView photo;
+        public TextView nom;
     }
+
 }
