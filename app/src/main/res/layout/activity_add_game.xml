@@ -8,7 +8,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.durpoix.quentin.retrocollection.AddGame">
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,8 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextAddNameGame"
+        android:layout_marginTop="59dp"
+        android:minWidth="20dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp"
-        android:minWidth="20dp" />
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

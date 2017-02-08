@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">RetroCollection</string>
-    <string name="btnGames">Jeux</string>
     <string name="TextGame">Mes jeux</string>
     <string name="buttonAddGame">Ajouter</string>
     <string name="title_activity_games">Jeux</string>
+    <string name="menu_princip">Ma collection</string>
+    <string name="title_activity_etagere">Collection</string>
+    <string name="menu_Sec">La plus grande collection</string>
+    <string name="menu_ic1">Statistiques</string>
 </resources>

@@ -33,14 +33,14 @@
         android:textColor="@android:color/black"
         android:layout_alignLeft="@+id/nom"
         android:layout_below="@+id/nom"
-        tools:text="Description du produit"
+        tools:text="Console"
         />
 
     <TextView
         android:id="@+id/emplacement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Emplacement du produit"
+        tools:text="Prix"
         android:layout_below="@+id/description"
         android:layout_alignLeft="@+id/description"
         android:layout_alignStart="@+id/description"

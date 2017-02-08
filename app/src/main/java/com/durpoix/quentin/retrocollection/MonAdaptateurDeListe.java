@@ -1,12 +1,6 @@
 package com.durpoix.quentin.retrocollection;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +27,9 @@ public class MonAdaptateurDeListe extends ArrayAdapter<Game> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.game_show,parent, false);
         }
 
-        TweetViewHolder viewHolder = (TweetViewHolder) convertView.getTag();
+        GameViewHolder viewHolder = (GameViewHolder) convertView.getTag();
         if(viewHolder == null){
-            viewHolder = new TweetViewHolder();
+            viewHolder = new GameViewHolder();
             viewHolder.nom = (TextView) convertView.findViewById(R.id.nom);
             viewHolder.emplacement = (TextView) convertView.findViewById(R.id.emplacement);
             viewHolder.description = (TextView) convertView.findViewById(R.id.description);
@@ -58,7 +52,7 @@ public class MonAdaptateurDeListe extends ArrayAdapter<Game> {
         return convertView;
     }
 
-    private class TweetViewHolder{
+    private class GameViewHolder{
         public TextView emplacement;
         public TextView description;
         public ImageView photo;

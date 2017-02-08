@@ -7,7 +7,7 @@ import android.widget.ImageView;
 /**
  * Created by Coco on 01/02/2017.
  */
-public class Game extends ListActivity{
+public class Game{
     private String Name;
     private String Console;
     private String Type;

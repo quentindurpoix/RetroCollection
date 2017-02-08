@@ -62,13 +62,14 @@ public class Games extends AppCompatActivity{
                    @Override
                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                       String ChangeGame=(String)parent.getItemAtPosition(position);
+                       Game changeGame = (Game) parent.getItemAtPosition(position);
 
                        Intent retour = new Intent(view.getContext(),AddGame.class);
-                       retour.putExtra("ChangeGame",ChangeGame);
+                       retour.putExtra("ChangeGame",changeGame.getName());
                        retour.putExtra("ChangeGamePosition",position);
                        setResult(Activity.RESULT_OK, retour);
                        startActivityForResult(retour,91);
+
 
                    }
                }
@@ -102,8 +103,9 @@ public class Games extends AppCompatActivity{
                 if (resultCode == RESULT_OK) {
                     String res = data.getStringExtra("NameGame");
                     int resPos = data.getIntExtra("ChangeGamePositon",-1);
-                    String ChangedGame=(String)listview.getItemAtPosition(resPos);
-
+                    Game changedGame=(Game)listview.getItemAtPosition(resPos);
+                    changedGame.setName(res);
+                    String ChangedGame = changedGame.getName();
                     Toast t = Toast.makeText(this, ChangedGame+" changed in "+res, Toast.LENGTH_SHORT);
                     t.setGravity(Gravity.CENTER,0,-100); // décalé du centre
                     t.show();
