@@ -2,6 +2,8 @@ package com.durpoix.quentin.retrocollection;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,9 +32,21 @@ public class Etagere extends AppCompatActivity
     private Game jeu3;
     private Game jeu4;
     private Game jeu5;
+    protected SQLiteDatabase mDb = null;
+    protected Database mHandler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
+        mHandler = new Database(this.getApplicationContext());
+        mDb = mHandler.getWritableDatabase();
+
+
+
+
         jeu1 = new Game("Resident Evil VII","PS4", 70);
         jeu2 = new Game("DOOM","PS4", 20);
         jeu3 = new Game("Battlefield 1","PS4", 50);
@@ -53,7 +67,7 @@ public class Etagere extends AppCompatActivity
         listview = (ListView) findViewById(R.id.listView);
 
 
-        List<Game> listeJeux = genererJeux();
+        List<Game> listeJeux = genererJeux(mDb);
         MonAdaptateurDeListe adapter = new MonAdaptateurDeListe(Etagere.this, listeJeux);
 
 
@@ -179,13 +193,41 @@ public class Etagere extends AppCompatActivity
         }
     }
 
-    private List<Game> genererJeux(){
+    private List<Game> genererJeux(SQLiteDatabase mDb){
         List<Game> jeux = new ArrayList<Game>();
-        jeux.add(jeu1);
-        jeux.add(jeu2);
-        jeux.add(jeu3);
-        jeux.add(jeu4);
-        jeux.add(jeu5);
+
+        String mQuery = "SELECT * FROM GAME";
+        Cursor mCur = mDb.rawQuery(mQuery, new String[]{});
+        mCur.moveToFirst();
+        while ( !mCur.isAfterLast()) {
+            String name= mCur.getString(mCur.getColumnIndex("name"));
+            System.out.println(name);
+            int price= mCur.getInt(mCur.getColumnIndex("price"));
+            Game game = new Game(name,"PS4",price);
+            jeux.add(game);
+            mCur.moveToNext();
+        }
         return jeux;
     }
+
+    private void initialisationDb(SQLiteDatabase mDb){
+        String verifReq ="SELECT COUNT(*) FROM GAME";
+        Cursor mCursor = mDb.rawQuery(verifReq,null);
+        mCursor.moveToFirst();
+        int count= mCursor.getInt(0);
+        if(count == 0){
+           String jeuTest="INSERT INTO GAME VALUES (\"Resident Evil VII\",1,1,40.0)";
+            mDb.execSQL(jeuTest);
+            jeuTest="INSERT INTO GAME VALUES (\"DOOM\",1,1,30.0)";
+            mDb.execSQL(jeuTest);
+            jeuTest="INSERT INTO GAME VALUES (\"Battlefield 1\",1,1,40.0)";
+            mDb.execSQL(jeuTest);
+            jeuTest="INSERT INTO GAME VALUES (\"Oddworld : L'Exode d'Abe\",1,1,20.0)";
+            mDb.execSQL(jeuTest);
+            jeuTest="INSERT INTO GAME VALUES (\"Oddworld : L'Odyssée de Munch\",1,1,15.0)";
+            mDb.execSQL(jeuTest);
+        }
+        mCursor.close();
+    }
+
 }
