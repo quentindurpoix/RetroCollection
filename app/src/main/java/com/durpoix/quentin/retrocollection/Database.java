@@ -28,7 +28,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String CONSOLE_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS " + CONSOLE_TABLE_NAME + " (" +
                     CONSOLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    CONSOLE_NAME + " TEXT "+
+                    CONSOLE_NAME + " TEXT, "+
                     CONSOLE_PRICE + " FLOAT, "+
                     CONSOLE_NB_CONTRO + " INTEGER"+");";
 
@@ -38,6 +38,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String GAME_ID_CONSOLE = "id_console";
     public static final String GAME_ID_CATEGORY = "id_category";
     public static final String GAME_PRICE = "price";
+    public static final String GAME_IMAGE = "image";
 
     public static final String GAME_TABLE_NAME = "GAME";
     public static final String GAME_TABLE_CREATE =
@@ -45,7 +46,8 @@ public class Database extends SQLiteOpenHelper {
                     GAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     GAME_NAME + " TEXT, " +
                     GAME_ID_CONSOLE + " INTEGER, "+
-                    GAME_ID_CATEGORY + " INTEGER " +
+                    GAME_ID_CATEGORY + " INTEGER, " +
+                    GAME_IMAGE + " INTEGER, "+
                     GAME_PRICE + " FLOAT," +
                     "FOREIGN KEY("+GAME_ID_CATEGORY+") REFERENCES "+CATEGORY_TABLE_NAME+"("+CATEGORY_ID+"), "+
                     "FOREIGN KEY("+GAME_ID_CONSOLE+") REFERENCES "+CONSOLE_TABLE_NAME+"("+CONSOLE_ID+") "+");";
@@ -72,6 +74,14 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(CATEGORY_TABLE_DROP);
+        db.execSQL(CONSOLE_TABLE_DROP);
+        db.execSQL(GAME_TABLE_DROP);
+        onCreate(db);
+
+    }
+
+    public void cleaning(SQLiteDatabase db){
         db.execSQL(CATEGORY_TABLE_DROP);
         db.execSQL(CONSOLE_TABLE_DROP);
         db.execSQL(GAME_TABLE_DROP);

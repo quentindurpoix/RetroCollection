@@ -30,16 +30,16 @@ public class Games extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        jeu1 = new Game("Resident Evil VII","PS4", 70);
+     /*   jeu1 = new Game("Resident Evil VII","PS4", 70);
         jeu2 = new Game("DOOM","PS4", 20);
         jeu3 = new Game("Battlefield 1","PS4", 50);
         jeu4 = new Game("Oddworld : L'Exode d'Abe","PSX", 20);
-        jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);
-        jeu1.setImg(R.drawable.jeu1);
+        jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);*/
+        /*jeu1.setImg(R.drawable.jeu1);
         jeu2.setImg(R.drawable.jeu2);
         jeu3.setImg(R.drawable.jeu3);
         jeu4.setImg(R.drawable.jeu4);
-        jeu5.setImg(R.drawable.jeu5);
+        jeu5.setImg(R.drawable.jeu5);*/
 
 
         setContentView(R.layout.activity_games);

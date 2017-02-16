@@ -8,13 +8,15 @@ import android.widget.ImageView;
  * Created by Coco on 01/02/2017.
  */
 public class Game{
+    private  int id;
     private String Name;
     private String Console;
     private String Type;
     private float Price;
     public int img;
 
-    public Game(String Name, String Console, float Price){
+    public Game(int id,String Name, String Console, float Price){
+        this.id=id;
         this.Name=Name;
         this.Console=Console;
         this.Price=Price;
@@ -26,6 +28,14 @@ public class Game{
 
     public void setType(String type) {
         Type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int Id) {
+        id = Id;
     }
 
     public String getConsole() {

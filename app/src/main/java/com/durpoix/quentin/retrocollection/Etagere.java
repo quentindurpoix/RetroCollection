@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -42,21 +43,22 @@ public class Etagere extends AppCompatActivity
 
 
         mHandler = new Database(this.getApplicationContext());
+
         mDb = mHandler.getWritableDatabase();
+        mHandler.cleaning(mDb);
+        initialisationDb(mDb);
 
 
-
-
-        jeu1 = new Game("Resident Evil VII","PS4", 70);
+        /*jeu1 = new Game("Resident Evil VII","PS4", 70);
         jeu2 = new Game("DOOM","PS4", 20);
         jeu3 = new Game("Battlefield 1","PS4", 50);
         jeu4 = new Game("Oddworld : L'Exode d'Abe","PSX", 20);
-        jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);
-        jeu1.setImg(R.drawable.jeu1);
-        jeu2.setImg(R.drawable.jeu2);
-        jeu3.setImg(R.drawable.jeu3);
-        jeu4.setImg(R.drawable.jeu4);
-        jeu5.setImg(R.drawable.jeu5);
+        jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);*/
+        //jeu1.setImg(R.drawable.jeu1);
+        // jeu2.setImg(R.drawable.jeu2);
+       // jeu3.setImg(R.drawable.jeu3);
+        //jeu4.setImg(R.drawable.jeu4);
+//        jeu5.setImg(R.drawable.jeu5);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_etagere);
@@ -68,6 +70,7 @@ public class Etagere extends AppCompatActivity
 
 
         List<Game> listeJeux = genererJeux(mDb);
+
         MonAdaptateurDeListe adapter = new MonAdaptateurDeListe(Etagere.this, listeJeux);
 
 
@@ -78,13 +81,20 @@ public class Etagere extends AppCompatActivity
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+
                         Game changeGame = (Game) parent.getItemAtPosition(position);
+                        Intent retour = new Intent(view.getContext(),desc_game.class);
+                        retour.putExtra("IDGame",changeGame.getId());
+                        setResult(Activity.RESULT_OK, retour);
+                        startActivity(retour);
+                       /* Game changeGame = (Game) parent.getItemAtPosition(position);
 
                         Intent retour = new Intent(view.getContext(),AddGame.class);
                         retour.putExtra("ChangeGame",changeGame.getName());
                         retour.putExtra("ChangeGamePosition",position);
                         setResult(Activity.RESULT_OK, retour);
-                        startActivityForResult(retour,91);
+                        startActivityForResult(retour,91);*/
 
 
                     }
@@ -201,9 +211,15 @@ public class Etagere extends AppCompatActivity
         mCur.moveToFirst();
         while ( !mCur.isAfterLast()) {
             String name= mCur.getString(mCur.getColumnIndex("name"));
-            System.out.println(name);
             int price= mCur.getInt(mCur.getColumnIndex("price"));
-            Game game = new Game(name,"PS4",price);
+            int id= mCur.getInt(mCur.getColumnIndex("id_game"));
+            int image= mCur.getInt(mCur.getColumnIndex("image"));
+            Game game = new Game(id,name,"PS4",price);
+            if(image==0){
+                game.setImg(R.drawable.space_invader);
+            }else {
+                game.setImg(image);
+            }
             jeux.add(game);
             mCur.moveToNext();
         }
@@ -215,16 +231,17 @@ public class Etagere extends AppCompatActivity
         Cursor mCursor = mDb.rawQuery(verifReq,null);
         mCursor.moveToFirst();
         int count= mCursor.getInt(0);
+        Log.i("Nb ligne",count+"");
         if(count == 0){
-           String jeuTest="INSERT INTO GAME VALUES (\"Resident Evil VII\",1,1,40.0)";
+           String jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Resident Evil VII\",1,1,40.0,"+R.drawable.jeu1+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME VALUES (\"DOOM\",1,1,30.0)";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"DOOM\",1,1,30.0,"+R.drawable.jeu2+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME VALUES (\"Battlefield 1\",1,1,40.0)";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Battlefield 1\",1,1,40.0,"+R.drawable.jeu3+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME VALUES (\"Oddworld : L'Exode d'Abe\",1,1,20.0)";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Exode d'Abe\",1,1,20.0,"+R.drawable.jeu4+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME VALUES (\"Oddworld : L'Odyssée de Munch\",1,1,15.0)";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Odyssée de Munch\",1,1,15.0,0)";
             mDb.execSQL(jeuTest);
         }
         mCursor.close();
