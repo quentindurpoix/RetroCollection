@@ -39,16 +39,19 @@ public class desc_game extends AppCompatActivity {
         if(AddGame.hasExtra("IDGame")) {
             GameId = AddGame.getIntExtra("IDGame", -1);
 
-            String req = "SELECT * FROM GAME WHERE id_game = "+GameId;
+            String req = "SELECT GAME.name as nom_jeu,CONSOLE.name as nom_console,image,id_game,GAME.price as prix_jeu,CATEGORY.name as name_cate FROM GAME JOIN CATEGORY using(id_category) JOIN CONSOLE using(id_console) WHERE id_game = "+GameId;
             Cursor mCur = mDb.rawQuery(req, new String[]{});
             mCur.moveToFirst();
-            String nameReq= mCur.getString(mCur.getColumnIndex("name"));
-            int priceReq= mCur.getInt(mCur.getColumnIndex("price"));
+            String nameReq= mCur.getString(mCur.getColumnIndex("nom_jeu"));
+            String name_cateReq= mCur.getString(mCur.getColumnIndex("name_cate"));
+            String name_consReq= mCur.getString(mCur.getColumnIndex("nom_console"));
+            int priceReq= mCur.getInt(mCur.getColumnIndex("prix_jeu"));
             int img= mCur.getInt(mCur.getColumnIndex("image"));
             name.setText(nameReq);
-            price.setText(priceReq+" €");
-            category.setText("La category");
-            console.setText("PS4");
+            String pricenB=priceReq+" €";
+            price.setText(pricenB);
+            category.setText(name_cateReq);
+            console.setText(name_consReq);
             if (img == 0) {
                 image.setImageResource(R.drawable.space_invader);
             }else{

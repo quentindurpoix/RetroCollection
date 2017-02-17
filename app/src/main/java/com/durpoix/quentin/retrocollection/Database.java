@@ -24,7 +24,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String CONSOLE_PRICE = "price";
     public static final String CONSOLE_NB_CONTRO = "nb_contro"; //nb manettes
 
-    public static final String CONSOLE_TABLE_NAME = "CATEGORY";
+    public static final String CONSOLE_TABLE_NAME = "CONSOLE";
     public static final String CONSOLE_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS " + CONSOLE_TABLE_NAME + " (" +
                     CONSOLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

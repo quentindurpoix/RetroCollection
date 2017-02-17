@@ -14,7 +14,8 @@
         android:layout_height="180dp"
         android:id="@+id/image_game"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="match_parent"
@@ -24,9 +25,10 @@
         android:id="@+id/name_game"
         android:gravity="center"
         android:textSize="30dp"
-        android:layout_below="@+id/image_game"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/image_game"
+        android:layout_toLeftOf="@+id/image_game"
+        android:layout_toStartOf="@+id/image_game"
+        android:layout_alignBottom="@+id/image_game" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,9 +36,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/console_game"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/image_game"
+        android:layout_alignRight="@+id/image_game"
+        android:layout_alignEnd="@+id/image_game"
+        android:layout_marginTop="59dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,9 +47,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/price_game"
-        android:layout_below="@+id/console_game"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/category_game"
+        android:layout_alignEnd="@+id/category_game" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -54,9 +57,14 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/category_game"
-        android:layout_marginTop="67dp"
         android:layout_below="@+id/price_game"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="34dp" />
+
+
 
 </RelativeLayout>
+
+
+

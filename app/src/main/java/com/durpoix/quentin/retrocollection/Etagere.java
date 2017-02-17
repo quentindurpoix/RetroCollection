@@ -206,20 +206,23 @@ public class Etagere extends AppCompatActivity
     private List<Game> genererJeux(SQLiteDatabase mDb){
         List<Game> jeux = new ArrayList<Game>();
 
-        String mQuery = "SELECT * FROM GAME";
+        String mQuery = "SELECT GAME.name as nom_jeu,CONSOLE.name as nom_console,image,id_game,GAME.price as prix_jeu,CATEGORY.name as name_cate FROM GAME JOIN CATEGORY using(id_category) JOIN CONSOLE using(id_console)";
         Cursor mCur = mDb.rawQuery(mQuery, new String[]{});
         mCur.moveToFirst();
         while ( !mCur.isAfterLast()) {
-            String name= mCur.getString(mCur.getColumnIndex("name"));
-            int price= mCur.getInt(mCur.getColumnIndex("price"));
+            String name= mCur.getString(mCur.getColumnIndex("nom_jeu"));
+            String name_cons= mCur.getString(mCur.getColumnIndex("nom_console"));
+            String name_cate= mCur.getString(mCur.getColumnIndex("name_cate"));
+            int price= mCur.getInt(mCur.getColumnIndex("prix_jeu"));
             int id= mCur.getInt(mCur.getColumnIndex("id_game"));
             int image= mCur.getInt(mCur.getColumnIndex("image"));
-            Game game = new Game(id,name,"PS4",price);
+            Game game = new Game(id,name,name_cons,price);
             if(image==0){
                 game.setImg(R.drawable.space_invader);
             }else {
                 game.setImg(image);
             }
+            game.setType(name_cate);
             jeux.add(game);
             mCur.moveToNext();
         }
@@ -235,14 +238,28 @@ public class Etagere extends AppCompatActivity
         if(count == 0){
            String jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Resident Evil VII\",1,1,40.0,"+R.drawable.jeu1+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"DOOM\",1,1,30.0,"+R.drawable.jeu2+")";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"DOOM\",1,2,30.0,"+R.drawable.jeu2+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Battlefield 1\",1,1,40.0,"+R.drawable.jeu3+")";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Battlefield 1\",1,4,40.0,"+R.drawable.jeu3+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Exode d'Abe\",1,1,20.0,"+R.drawable.jeu4+")";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Exode d'Abe\",2,3,20.0,"+R.drawable.jeu4+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Odyssée de Munch\",1,1,15.0,0)";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Odyssée de Munch\",2,3,15.0,0)";
             mDb.execSQL(jeuTest);
+            String console_test= "INSERT INTO CONSOLE(name,price,nb_contro) VALUES (\"Playstation 4\",300.00,2)";
+            mDb.execSQL(console_test);
+            console_test= "INSERT INTO CONSOLE(name,price,nb_contro) VALUES (\"Playstation one\",30.00,3)";
+            mDb.execSQL(console_test);
+            console_test= "INSERT INTO CONSOLE(name,price,nb_contro) VALUES (\"Super Nintendo\",50.00,2)";
+            mDb.execSQL(console_test);
+            String category_test="INSERT INTO CATEGORY(name) VALUES (\"Survival Horror\")";
+            mDb.execSQL(category_test);
+            category_test="INSERT INTO CATEGORY(name) VALUES (\"Shoot'em up\")";
+            mDb.execSQL(category_test);
+            category_test="INSERT INTO CATEGORY(name) VALUES (\"Plates-formes\")";
+            mDb.execSQL(category_test);
+            category_test="INSERT INTO CATEGORY(name) VALUES (\"First Person Shooter\")";
+            mDb.execSQL(category_test);
         }
         mCursor.close();
     }
