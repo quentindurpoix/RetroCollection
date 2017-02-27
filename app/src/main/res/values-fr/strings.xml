@@ -8,4 +8,6 @@
     <string name="title_activity_etagere">Collection</string>
     <string name="menu_Sec">La plus grande collection</string>
     <string name="menu_ic1">Statistiques</string>
+    <string name="button_co_val" translatable="false">Connexion</string>
+    <string name="text_co_mdp">Mot de passe</string>
 </resources>

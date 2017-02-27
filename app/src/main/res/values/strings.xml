@@ -5,6 +5,7 @@
     <string name="buttonAddGame">Add</string>
     <string name="title_activity_etagere">Collection</string>
     <string name="menu_ic1">Statistics</string>
+    <string name="menu_ic2">Login</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -12,4 +13,6 @@
     <string name="action_settings">Settings</string>
     <string name="menu_princip">My collection</string>
     <string name="menu_Sec">The greatest collection</string>
+    <string name="button_co_val">Login</string>
+    <string name="text_co_mdp">Password</string>
 </resources>
