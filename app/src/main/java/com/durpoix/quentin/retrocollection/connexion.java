@@ -25,6 +25,7 @@ public class connexion extends AppCompatActivity {
     String RETURN;
     Boolean stop = true;
     String passV;
+    String ERROR;
     String emailV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +84,25 @@ public class connexion extends AppCompatActivity {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
                         JSONObject returnPhp = new JSONObject(reader.readLine());
-                        String ERROR = returnPhp.getString("ERROR");
+                        ERROR = returnPhp.getString("ERROR");
                         RETURN = returnPhp.getString("RETURN");
                         Log.i("connexion",RETURN);
+                        if(RETURN.equals("true")){
+                            connexion.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    toast = Toast.makeText(connexion.this, emailV, Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
+                            });
+                        }else{
+                            connexion.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    toast = Toast.makeText(connexion.this, ERROR, Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
+                            });
+
+                        }
                         progressDialog.dismiss();
 
                     } catch (Exception e) {
@@ -95,7 +112,7 @@ public class connexion extends AppCompatActivity {
             }).start();
 
         }else{
-            toast = Toast.makeText(this, "Nope", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(this, "Veuillez renseigner un login et un password", Toast.LENGTH_SHORT);
             toast.show();
         }
 
