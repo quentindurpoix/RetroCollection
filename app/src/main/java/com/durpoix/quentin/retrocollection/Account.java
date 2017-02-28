@@ -1,5 +1,6 @@
 package com.durpoix.quentin.retrocollection;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,8 @@ Session session;
     public void deco(View view) {
         session = new Session(this);
         session.setusename("");
+        Intent returnIntent = new Intent();
+        setResult(RESULT_CANCELED, returnIntent);
         finish();
     }
 }

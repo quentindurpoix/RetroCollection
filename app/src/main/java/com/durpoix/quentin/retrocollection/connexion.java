@@ -2,6 +2,7 @@ package com.durpoix.quentin.retrocollection;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.BoolRes;
@@ -92,7 +93,10 @@ public class connexion extends AppCompatActivity {
                         if(RETURN.equals("true")){
 
                            session.setusename(emailV);
+                            Intent returnIntent = new Intent();
+                            setResult(RESULT_CANCELED, returnIntent);
                             finish();
+
 
                         }else{
                             connexion.this.runOnUiThread(new Runnable() {

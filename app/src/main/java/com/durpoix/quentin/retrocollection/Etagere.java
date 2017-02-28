@@ -115,9 +115,15 @@ public class Etagere extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
     }
 
     @Override
@@ -137,6 +143,7 @@ public class Etagere extends AppCompatActivity
         return true;
     }
 */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -165,11 +172,11 @@ public class Etagere extends AppCompatActivity
             if(session.getusename().equals("")) {
                 Intent retour = new Intent(this, connexion.class);
                 setResult(Activity.RESULT_OK, retour);
-                startActivity(retour);
+                startActivityForResult(retour,1);
             }else{
                 Intent retour = new Intent(this, Account.class);
                 setResult(Activity.RESULT_OK, retour);
-                startActivity(retour);
+                startActivityForResult(retour,1);
 
             }
 
@@ -190,6 +197,20 @@ public class Etagere extends AppCompatActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
+            case 1 :
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                Menu menu = navigationView.getMenu();
+                MenuItem nav_login = menu.findItem(R.id.nav_login);
+                Session session = new Session(this);
+                if(!session.getusename().equals("")){
+                    nav_login.setTitle(session.getusename());
+                }else{
+                    nav_login.setTitle("Login");
+                }
+
+
+
+
             case 90:
                 if (resultCode == RESULT_OK) {
                     String res = data.getStringExtra("NameGame");
