@@ -27,6 +27,8 @@ public class connexion extends AppCompatActivity {
     String passV;
     String ERROR;
     String emailV;
+    Session session;//global variable
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class connexion extends AppCompatActivity {
         }
 
         if(isOnline()&&stop){
+            session = new Session(connexion.this);
             final ProgressDialog progressDialog = new ProgressDialog(connexion.this);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
@@ -86,14 +89,11 @@ public class connexion extends AppCompatActivity {
                         JSONObject returnPhp = new JSONObject(reader.readLine());
                         ERROR = returnPhp.getString("ERROR");
                         RETURN = returnPhp.getString("RETURN");
-                        Log.i("connexion",RETURN);
                         if(RETURN.equals("true")){
-                            connexion.this.runOnUiThread(new Runnable() {
-                                public void run() {
-                                    toast = Toast.makeText(connexion.this, emailV, Toast.LENGTH_SHORT);
-                                    toast.show();
-                                }
-                            });
+
+                           session.setusename(emailV);
+                            finish();
+
                         }else{
                             connexion.this.runOnUiThread(new Runnable() {
                                 public void run() {
