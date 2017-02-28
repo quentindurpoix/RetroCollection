@@ -1,12 +1,17 @@
 package com.durpoix.quentin.retrocollection;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class desc_game extends AppCompatActivity {
     TextView name;
@@ -60,5 +65,47 @@ public class desc_game extends AppCompatActivity {
         }
 
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.etagere, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_delete) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Voulez vous vraiment supprimer cet objet ?").setTitle("Supression");
+            builder.setPositiveButton("oui", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent AddGame = getIntent();
+                    GameId = AddGame.getIntExtra("IDGame", -1);
+                    finish();
+                }
+            });
+            builder.setNegativeButton("non", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // User cancelled the dialog
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return true;
+        }
+
+        if (id == R.id.action_modify) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
