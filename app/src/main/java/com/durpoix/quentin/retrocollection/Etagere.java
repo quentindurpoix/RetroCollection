@@ -161,10 +161,17 @@ public class Etagere extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_login) {
+            Session session = new Session(this);
+            if(session.getusename().equals("")) {
+                Intent retour = new Intent(this, connexion.class);
+                setResult(Activity.RESULT_OK, retour);
+                startActivity(retour);
+            }else{
+                Intent retour = new Intent(this, Account.class);
+                setResult(Activity.RESULT_OK, retour);
+                startActivity(retour);
 
-            Intent retour = new Intent(this,connexion.class);
-            setResult(Activity.RESULT_OK, retour);
-            startActivity(retour);
+            }
 
         } else if (id == R.id.nav_slideshow) {
 
