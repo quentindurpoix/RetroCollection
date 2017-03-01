@@ -1,5 +1,7 @@
 package com.durpoix.quentin.retrocollection;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -40,10 +43,10 @@ public class desc_game extends AppCompatActivity {
         mDb = mHandler.getWritableDatabase();
 
         Intent AddGame = getIntent();
+        AddGame.putExtra("action","");
 
         if(AddGame.hasExtra("IDGame")) {
             GameId = AddGame.getIntExtra("IDGame", -1);
-
             String req = "SELECT GAME.name as nom_jeu,CONSOLE.name as nom_console,image,id_game,GAME.price as prix_jeu,CATEGORY.name as name_cate FROM GAME JOIN CATEGORY using(id_category) JOIN CONSOLE using(id_console) WHERE id_game = "+GameId;
             Cursor mCur = mDb.rawQuery(req, new String[]{});
             mCur.moveToFirst();
@@ -63,7 +66,6 @@ public class desc_game extends AppCompatActivity {
                 image.setImageResource(img);
             }
         }
-
 
     }
 
@@ -85,11 +87,24 @@ public class desc_game extends AppCompatActivity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Voulez vous vraiment supprimer cet objet ?").setTitle("Supression");
+
             builder.setPositiveButton("oui", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    Intent AddGame = getIntent();
+
+
+                    final ProgressDialog progressDialog = new ProgressDialog(desc_game.this);
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("Suppression...");
+                    progressDialog.show();
+                    final Intent AddGame = getIntent();
                     GameId = AddGame.getIntExtra("IDGame", -1);
-                    finish();
+                    if(deleteTitle(GameId)){
+                        progressDialog.dismiss();
+                        AddGame.putExtra("action","delete");
+                        setResult(Activity.RESULT_OK, AddGame);
+                        finish();
+                    }
                 }
             });
             builder.setNegativeButton("non", new DialogInterface.OnClickListener() {
@@ -107,5 +122,10 @@ public class desc_game extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean deleteTitle(int id)
+    {
+        return mDb.delete("GAME", "id_game" + "=" + id, null) > 0;
     }
 }

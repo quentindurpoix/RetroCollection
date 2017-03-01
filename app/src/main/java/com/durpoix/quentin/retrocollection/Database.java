@@ -47,7 +47,7 @@ public class Database extends SQLiteOpenHelper {
                     GAME_NAME + " TEXT, " +
                     GAME_ID_CONSOLE + " INTEGER, "+
                     GAME_ID_CATEGORY + " INTEGER, " +
-                    GAME_IMAGE + " INTEGER, "+
+                    GAME_IMAGE + " BLOB, "+
                     GAME_PRICE + " FLOAT," +
                     "FOREIGN KEY("+GAME_ID_CATEGORY+") REFERENCES "+CATEGORY_TABLE_NAME+"("+CATEGORY_ID+"), "+
                     "FOREIGN KEY("+GAME_ID_CONSOLE+") REFERENCES "+CONSOLE_TABLE_NAME+"("+CONSOLE_ID+") "+");";

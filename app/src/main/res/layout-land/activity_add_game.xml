@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-
+        
+        
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,27 +12,20 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.durpoix.quentin.retrocollection.connexion">
-
-
-
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
         <ImageButton
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/imageButton_AddGame"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:onClick="AjouterPhoto"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:nestedScrollingEnabled="true" />
+            android:layout_marginBottom="20dp" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#FF909090"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
 
             <EditText android:id="@+id/input_AddGame_Name"
                 android:layout_width="match_parent"
@@ -41,17 +34,12 @@
                 android:inputType="text" />
 
 
+
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_AddGame_console"
             android:layout_marginTop="7dp" />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#FF909090"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
 
         <EditText android:id="@+id/input_AddGame_Prix"
             android:layout_width="match_parent"
@@ -65,17 +53,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/spinner_AddGame_Category"
             android:layout_marginTop="20dp" />
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#FF909090"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom">
+
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_addgame_add"
             android:layout_width="fill_parent"
@@ -83,7 +62,7 @@
             android:layout_marginTop="24dp"
             android:padding="12dp"
             android:text="Ajouter"
-            android:onClick="addGameAdd"
+            android:onClick="Connexion"
             android:background="#66ff4b" />
 
         <android.support.v7.widget.AppCompatButton
@@ -94,9 +73,11 @@
             android:padding="12dp"
             android:textAlignment="center"
             android:text="Annuler"
-            android:onClick="addGameAnul"
+            android:onClick="Connexion"
             android:background="#fe4b4b" />
+            </LinearLayout>
+
+</ScrollView>
 
 </LinearLayout>
 
-</LinearLayout>

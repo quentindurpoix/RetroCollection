@@ -25,21 +25,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Etagere extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class Etagere extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     ListView listview;
-    private Game jeu1;
-    private Game jeu2;
-    private Game jeu3;
-    private Game jeu4;
-    private Game jeu5;
     protected SQLiteDatabase mDb = null;
     protected Database mHandler = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
 
 
         mHandler = new Database(this.getApplicationContext());
@@ -49,53 +42,24 @@ public class Etagere extends AppCompatActivity
         initialisationDb(mDb);
 
 
-        /*jeu1 = new Game("Resident Evil VII","PS4", 70);
-        jeu2 = new Game("DOOM","PS4", 20);
-        jeu3 = new Game("Battlefield 1","PS4", 50);
-        jeu4 = new Game("Oddworld : L'Exode d'Abe","PSX", 20);
-        jeu5 = new Game("Oddworld : L'Odyssée de Munch","XBOX", 15);*/
-        //jeu1.setImg(R.drawable.jeu1);
-        // jeu2.setImg(R.drawable.jeu2);
-       // jeu3.setImg(R.drawable.jeu3);
-        //jeu4.setImg(R.drawable.jeu4);
-//        jeu5.setImg(R.drawable.jeu5);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_etagere);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        listview = (ListView) findViewById(R.id.listView);
-
-
-        List<Game> listeJeux = genererJeux(mDb);
-
-        MonAdaptateurDeListe adapter = new MonAdaptateurDeListe(Etagere.this, listeJeux);
-
-
-        listview.setAdapter(adapter);
+        majListview();
 
         listview.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
-                        Game changeGame = (Game) parent.getItemAtPosition(position);
                         Intent retour = new Intent(view.getContext(),desc_game.class);
-                        retour.putExtra("IDGame",changeGame.getId());
+                        int id_game = (int) id;
+                        retour.putExtra("IDGame",id_game);
                         setResult(Activity.RESULT_OK, retour);
-                        startActivity(retour);
-                       /* Game changeGame = (Game) parent.getItemAtPosition(position);
-
-                        Intent retour = new Intent(view.getContext(),AddGame.class);
-                        retour.putExtra("ChangeGame",changeGame.getName());
-                        retour.putExtra("ChangeGamePosition",position);
-                        setResult(Activity.RESULT_OK, retour);
-                        startActivityForResult(retour,91);*/
-
+                        startActivityForResult(retour,2);
 
                     }
                 }
@@ -106,7 +70,7 @@ public class Etagere extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //here
-                startActivityForResult(new Intent(v.getContext(),AddGame.class),90);
+                startActivityForResult(new Intent(v.getContext(),AddGame.class),3);
             }
         });
 
@@ -144,15 +108,6 @@ public class Etagere extends AppCompatActivity
         }
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.etagere, menu);
-        return true;
-    }
-*/
-
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -163,6 +118,7 @@ public class Etagere extends AppCompatActivity
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_login) {
+
             Session session = new Session(this);
             if(session.getusename().equals("")) {
                 Intent retour = new Intent(this, connexion.class);
@@ -191,70 +147,64 @@ public class Etagere extends AppCompatActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case 1 :
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                Menu menu = navigationView.getMenu();
-                MenuItem nav_login = menu.findItem(R.id.nav_login);
-                Session session = new Session(this);
-                if(!session.getusename().equals("")){
-                    nav_login.setTitle(session.getusename());
-                }else{
-                    nav_login.setTitle("Login");
-                }
+        if(data != null) {
+            switch (requestCode) {
+                case 1:
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    Menu menu = navigationView.getMenu();
+                    MenuItem nav_login = menu.findItem(R.id.nav_login);
+                    Session session = new Session(this);
+                    if (!session.getusename().equals("")) {
+                        nav_login.setTitle(session.getusename());
+                    } else {
+                        nav_login.setTitle("Login");
+                    }
 
+                case 2:
 
+                    String rea = "";
+                    if (data.hasExtra("action")) {
+                        rea = data.getStringExtra("action");
+                    }
 
+                    if (rea.equals("delete")) {
+                        majListview();
+                        Toast a = Toast.makeText(this, "jeu supprimé !", Toast.LENGTH_SHORT);
+                        a.show();
+                    }
 
-            case 90:
-                if (resultCode == RESULT_OK) {
-                    String res = data.getStringExtra("NameGame");
+                case 3:
+                    if (resultCode == RESULT_OK) {
+                        majListview();
+                        Toast t = Toast.makeText(this, "jeu ajouté", Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER, 0, -100); // décalé du centre
+                        t.show();
+                    }
+                    break;
+                case 91:
+                    if (resultCode == RESULT_OK) {
 
-                    Toast t = Toast.makeText(this, res, Toast.LENGTH_SHORT);
-                    t.setGravity(Gravity.CENTER,0,-100); // décalé du centre
-                    t.show();
-                }
-                break;
-            case 91:
-                if (resultCode == RESULT_OK) {
-                    String res = data.getStringExtra("NameGame");
-                    int resPos = data.getIntExtra("ChangeGamePositon",-1);
-                    Game changedGame=(Game)listview.getItemAtPosition(resPos);
-                    changedGame.setName(res);
-                    String ChangedGame = changedGame.getName();
-                    Toast t = Toast.makeText(this, ChangedGame+" changed in "+res, Toast.LENGTH_SHORT);
-                    t.setGravity(Gravity.CENTER,0,-100); // décalé du centre
-                    t.show();
-                }
-                break;
-        }
-    }
-
-    private List<Game> genererJeux(SQLiteDatabase mDb){
-        List<Game> jeux = new ArrayList<Game>();
-
-        String mQuery = "SELECT GAME.name as nom_jeu,CONSOLE.name as nom_console,image,id_game,GAME.price as prix_jeu,CATEGORY.name as name_cate FROM GAME JOIN CATEGORY using(id_category) JOIN CONSOLE using(id_console)";
-        Cursor mCur = mDb.rawQuery(mQuery, new String[]{});
-        mCur.moveToFirst();
-        while ( !mCur.isAfterLast()) {
-            String name= mCur.getString(mCur.getColumnIndex("nom_jeu"));
-            String name_cons= mCur.getString(mCur.getColumnIndex("nom_console"));
-            String name_cate= mCur.getString(mCur.getColumnIndex("name_cate"));
-            int price= mCur.getInt(mCur.getColumnIndex("prix_jeu"));
-            int id= mCur.getInt(mCur.getColumnIndex("id_game"));
-            int image= mCur.getInt(mCur.getColumnIndex("image"));
-            Game game = new Game(id,name,name_cons,price);
-            if(image==0){
-                game.setImg(R.drawable.space_invader);
-            }else {
-                game.setImg(image);
+                        Toast t = Toast.makeText(this, " changed in ", Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER, 0, -100); // décalé du centre
+                        t.show();
+                    }
+                    break;
             }
-            game.setType(name_cate);
-            jeux.add(game);
-            mCur.moveToNext();
         }
-        return jeux;
     }
+
+
+    private void majListview(){
+
+        listview = (ListView) findViewById(R.id.listView);
+        String mQuery = "SELECT GAME.name as nom_jeu,CONSOLE.name as nom_console,image,id_game as _id,GAME.price as prix_jeu,CATEGORY.name as name_cate FROM GAME JOIN CATEGORY using(id_category) JOIN CONSOLE using(id_console)";
+        Cursor mCur = mDb.rawQuery(mQuery, new String[]{});
+        MonAdaptateurDeListeCursor adapter = new MonAdaptateurDeListeCursor(Etagere.this,mCur);
+        listview.setAdapter(adapter);
+
+    }
+
+
 
     private void initialisationDb(SQLiteDatabase mDb){
         String verifReq ="SELECT COUNT(*) FROM GAME";

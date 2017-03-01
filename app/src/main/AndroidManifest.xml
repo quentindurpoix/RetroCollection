@@ -13,10 +13,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".AddGame" />
         <activity
-            android:name=".Games"
-            android:label="@string/title_activity_games"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Etagere"
             android:label="@string/title_activity_etagere"
             android:theme="@style/AppTheme.NoActionBar">
