@@ -158,7 +158,7 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
                         nav_login.setTitle(session.getusename());
                     } else {
                         nav_login.setTitle("Login");
-                    }
+                    }break;
 
                 case 2:
 
@@ -172,7 +172,7 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
                         Toast a = Toast.makeText(this, "jeu supprimé !", Toast.LENGTH_SHORT);
                         a.show();
                     }
-
+                    break;
                 case 3:
                     if (resultCode == RESULT_OK) {
                         majListview();
@@ -213,15 +213,15 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
         int count= mCursor.getInt(0);
         Log.i("Nb ligne",count+"");
         if(count == 0){
-           String jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Resident Evil VII\",1,1,40.0,"+R.drawable.jeu1+")";
+           String jeuTest="INSERT INTO GAME(name,id_console,id_category,price) VALUES (\"Resident Evil VII\",1,1,40.0)";//,"+R.drawable.jeu1+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"DOOM\",1,2,30.0,"+R.drawable.jeu2+")";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price) VALUES (\"DOOM\",1,2,30.0)";//,"+R.drawable.jeu2+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Battlefield 1\",1,4,40.0,"+R.drawable.jeu3+")";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price) VALUES (\"Battlefield 1\",1,4,40.0)";//,"+R.drawable.jeu3+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Exode d'Abe\",2,3,20.0,"+R.drawable.jeu4+")";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price) VALUES (\"Oddworld : L'Exode d'Abe\",2,3,20.0)";//,"+R.drawable.jeu4+")";
             mDb.execSQL(jeuTest);
-            jeuTest="INSERT INTO GAME(name,id_console,id_category,price,image) VALUES (\"Oddworld : L'Odyssée de Munch\",2,3,15.0,0)";
+            jeuTest="INSERT INTO GAME(name,id_console,id_category,price) VALUES (\"Oddworld : L'Odyssée de Munch\",2,3,15.0)";
             mDb.execSQL(jeuTest);
             String console_test= "INSERT INTO CONSOLE(name,price,nb_contro) VALUES (\"Playstation 4\",300.00,2)";
             mDb.execSQL(console_test);

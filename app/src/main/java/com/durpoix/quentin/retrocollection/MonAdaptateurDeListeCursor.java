@@ -2,6 +2,9 @@ package com.durpoix.quentin.retrocollection;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,16 +49,25 @@ public class MonAdaptateurDeListeCursor extends CursorAdapter {
         String name_cons= cursor.getString(cursor.getColumnIndex("nom_console"));
         int price= cursor.getInt(cursor.getColumnIndex("prix_jeu"));
         String priceV  = price+" €";
-        int image= cursor.getInt(cursor.getColumnIndex("image"));
+        byte[] imageByte= cursor.getBlob(cursor.getColumnIndex("image"));
+        Log.i("image",""+imageByte);
+
         // Populate fields with extracted properties
         nom.setText(name);
         emplacement.setText(priceV);
         description.setText(name_cons);
-        if (image == 0) {
+
+        if (imageByte == null) {
             photo.setImageResource(R.drawable.space_invader);
         }else{
-            photo.setImageResource(image);
+
+            Bitmap image = getImage(imageByte);
+            photo.setImageBitmap(image);
         }
 
+    }
+
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }

@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,18 +56,23 @@ public class desc_game extends AppCompatActivity {
             String name_cateReq= mCur.getString(mCur.getColumnIndex("name_cate"));
             String name_consReq= mCur.getString(mCur.getColumnIndex("nom_console"));
             int priceReq= mCur.getInt(mCur.getColumnIndex("prix_jeu"));
-            int img= mCur.getInt(mCur.getColumnIndex("image"));
+            byte[] imageByte= mCur.getBlob(mCur.getColumnIndex("image"));
             name.setText(nameReq);
             String pricenB=priceReq+" €";
             price.setText(pricenB);
             category.setText(name_cateReq);
             console.setText(name_consReq);
-            if (img == 0) {
+            if (imageByte == null) {
                 image.setImageResource(R.drawable.space_invader);
             }else{
-                image.setImageResource(img);
+
+                Bitmap imageResized = getImage(imageByte);
+                image.setImageBitmap(imageResized);
             }
+
         }
+
+
 
     }
 
@@ -127,5 +134,9 @@ public class desc_game extends AppCompatActivity {
     public boolean deleteTitle(int id)
     {
         return mDb.delete("GAME", "id_game" + "=" + id, null) > 0;
+    }
+
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 }
