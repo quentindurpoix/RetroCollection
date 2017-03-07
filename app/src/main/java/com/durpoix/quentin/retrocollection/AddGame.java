@@ -1,7 +1,9 @@
 package com.durpoix.quentin.retrocollection;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +34,7 @@ public class AddGame extends AppCompatActivity {
     ImageButton buttonImg;
     Spinner spinner_console;
     Spinner spinner_category;
+    Bitmap imageSaved;
 
     protected SQLiteDatabase mDb = null;
     protected Database mHandler = null;
@@ -49,6 +54,7 @@ public class AddGame extends AppCompatActivity {
         spinner_console = (Spinner) findViewById(R.id.spinner_AddGame_console);
         spinner_category = (Spinner) findViewById(R.id.spinner_AddGame_Category);
         buttonImg = (ImageButton)findViewById(R.id.imageButton_AddGame);
+
 
         String req = "SELECT id_console as _id, name FROM CONSOLE ";
         Cursor cursor_cons = mDb.rawQuery(req, new String[]{});
@@ -85,40 +91,57 @@ public class AddGame extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 0:
+            case 1:
                 if (resultCode == RESULT_OK){
                     Uri targetUri = data.getData();
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
-                        buttonImg.setImageBitmap(bitmap);//Bitmap.createScaledBitmap(bitmap,buttonImg.getWidth(),buttonImg.getHeight(), true));
+                        buttonImg.setImageBitmap(bitmap);
+                        //imageSaved = Bitmap.createScaledBitmap(bitmap,192,192, true);
+                        //Bitmap imageResized=Bitmap.createBitmap(bitmap, bitmap.getHeight()/2,bitmap.getWidth()/2, bitmap.getWidth(),bitmap.getHeight());
+                        imageSaved = Bitmap.createScaledBitmap(bitmap,192,192, true);
+                        int taille = imageSaved.getByteCount();
+                        Log.i("taille img",""+taille);
                     } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                }
+               } break;
+            case 2:
+                if (resultCode == RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    Bitmap image = (Bitmap) extras.get("data");
+                    buttonImg.setImageBitmap(image);
+
+                }break;
+
         }
 
-
-
-        }
-
-
-
-    public void AddGame(View view) {
-        Intent retour = new Intent();
-        if(ChangeGamePosition!=-1){     //Si ça été une modification
-            retour.putExtra("ChangeGamePositon",ChangeGamePosition);
-        }
-       // retour.putExtra("NameGame",champ.getText().toString());
-        setResult(Activity.RESULT_OK, retour);
-        finish();
     }
 
 
     public void AjouterPhoto(View view) {
 
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Voulez vour prendre une photo ou en choisir une ?").setTitle("Ajouter une photo");
+
+        builder.setPositiveButton("Choisir dans Gallery", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1);
+            }
+        });
+        builder.setNegativeButton("Prendre une photo", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent photographier = new Intent(
+                        MediaStore.ACTION_IMAGE_CAPTURE);
+                if (photographier.resolveActivity(getPackageManager()) != null){
+                    startActivityForResult(photographier, 2);
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void addGameAnul(View view) {
@@ -147,16 +170,18 @@ public class AddGame extends AppCompatActivity {
             nbCategory= Integer.parseInt(mCursor.getString( mCursor.getColumnIndex("id_category") ));
         }
         mCursor.close();
-
-
-       // byte[] image = getBytes(bitmap);
+        byte[] image = null;
+        if(imageSaved != null) {
+            image = getBytes(imageSaved);
+        }
+       //
 
         ContentValues cv = new  ContentValues();
         cv.put("name",nom);
         cv.put("id_console",nbConsole);
         cv.put("id_category",nbCategory);
         cv.put("price",prix);
-        //cv.put("image",image);
+        cv.put("image",image);
         mDb.insert("GAME", null, cv);
 
 
