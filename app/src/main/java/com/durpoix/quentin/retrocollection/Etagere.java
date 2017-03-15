@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -24,13 +26,20 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 public class Etagere extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listview;
     protected SQLiteDatabase mDb = null;
     protected Database mHandler = null;
-
+    protected android.os.Handler handler = new android.os.Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        Log.i("Message",msg+"");
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,6 +50,8 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
         mHandler.cleaning(mDb);
         initialisationDb(mDb);
 
+        Intent intent = new Intent(this, CARIntentService.class).putExtra("message",new Messenger(handler));
+        startService(intent);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_etagere);

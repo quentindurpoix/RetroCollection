@@ -4,7 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera2"
+
+    <uses-feature
+        android:name="android.hardware.camera2"
         android:required="true" />
 
     <application
@@ -26,7 +28,11 @@
         </activity>
         <activity android:name=".desc_game" />
         <activity android:name=".connexion" />
-        <activity android:name=".Account"></activity>
+        <activity android:name=".Account" />
+
+        <service
+            android:name=".CARIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

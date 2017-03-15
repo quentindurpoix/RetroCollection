@@ -1,7 +1,6 @@
 package com.durpoix.quentin.retrocollection;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,20 +9,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -97,11 +93,14 @@ public class AddGame extends AppCompatActivity {
                     try {
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(targetUri));
                         buttonImg.setImageBitmap(bitmap);
-                        //imageSaved = Bitmap.createScaledBitmap(bitmap,192,192, true);
-                        //Bitmap imageResized=Bitmap.createBitmap(bitmap, bitmap.getHeight()/2,bitmap.getWidth()/2, bitmap.getWidth(),bitmap.getHeight());
-                        imageSaved = Bitmap.createScaledBitmap(bitmap,192,192, true);
-                        int taille = imageSaved.getByteCount();
-                        Log.i("taille img",""+taille);
+                        Bitmap imageResized=bitmap;
+                        if(bitmap.getHeight()>bitmap.getWidth()){
+                           imageResized=Bitmap.createBitmap(bitmap,0,0, bitmap.getWidth(),bitmap.getWidth());
+                        }else{
+                            imageResized=Bitmap.createBitmap(bitmap, 0,0, bitmap.getHeight(),bitmap.getHeight());
+                        }
+                        imageSaved = Bitmap.createScaledBitmap(imageResized,192,192, true);
+
                     } catch (FileNotFoundException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -109,12 +108,23 @@ public class AddGame extends AppCompatActivity {
                } break;
             case 2:
                 if (resultCode == RESULT_OK){
+                    try {
                     Bundle extras = data.getExtras();
-                    Bitmap image = (Bitmap) extras.get("data");
-                    buttonImg.setImageBitmap(image);
+                    Bitmap bitmap = (Bitmap) extras.get("data");
+                    buttonImg.setImageBitmap(bitmap);
+                    Bitmap imageResized=bitmap;
+                    if(bitmap.getHeight()>bitmap.getWidth()){
+                        imageResized=Bitmap.createBitmap(bitmap,0,0, bitmap.getWidth(),bitmap.getWidth());
+                    }else{
+                        imageResized=Bitmap.createBitmap(bitmap, 0,0, bitmap.getHeight(),bitmap.getHeight());
+                    }
+                    imageSaved = Bitmap.createScaledBitmap(imageResized,192,192, true);
+                    } catch (NullPointerException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
 
                 }break;
-
         }
 
     }
@@ -207,4 +217,5 @@ public class AddGame extends AppCompatActivity {
     public static Bitmap getImage(byte[] image) {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
+
 }
