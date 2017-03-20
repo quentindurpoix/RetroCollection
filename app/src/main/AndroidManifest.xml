@@ -26,10 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".desc_game" />
+        <activity android:name=".descGame" />
         <activity android:name=".connexion" />
         <activity android:name=".Account" />
-
+        <activity android:name=".Preferences" />
         <service
             android:name=".CARIntentService"
             android:exported="false"></service>

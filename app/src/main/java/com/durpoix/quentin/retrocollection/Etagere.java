@@ -1,14 +1,17 @@
 package com.durpoix.quentin.retrocollection;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.preference.PreferenceActivity;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -24,13 +27,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Handler;
-
 public class Etagere extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ListView listview;
+    String tempsRestant;
     protected SQLiteDatabase mDb = null;
     protected Database mHandler = null;
     protected android.os.Handler handler = new android.os.Handler(){
@@ -40,6 +40,27 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
         Log.i("Message",msg+"");
         }
     };
+
+    private CARIntentService.Liant serve;
+    private ServiceConnection connexion = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            serve = (CARIntentService.Liant) service;
+            tempsRestant = "Temps restant : "+serve.getChrono();
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            serve = null;
+        }
+    };
+    public void onBindTestBindingServiceClick(View view) {
+        bindService(new Intent(this, TestBindingService.class), connexion,
+                BIND_AUTO_CREATE);
+    }
+    public void onUnbindClick(View view) {
+        unbindService(connexion);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,7 +87,7 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        Intent retour = new Intent(view.getContext(),desc_game.class);
+                        Intent retour = new Intent(view.getContext(),descGame.class);
                         int id_game = (int) id;
                         retour.putExtra("IDGame",id_game);
                         setResult(Activity.RESULT_OK, retour);
@@ -100,7 +121,8 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
         }else{
             nav_login.setTitle("Login");
         }
-
+        Toast a = Toast.makeText(this, tempsRestant, Toast.LENGTH_SHORT);
+        a.show();
     }
     @Override
     public void onResume()
@@ -149,6 +171,8 @@ public class Etagere extends AppCompatActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            Intent retour = new Intent(this, Preferences.class);
+            startActivity(retour);
 
         }
 

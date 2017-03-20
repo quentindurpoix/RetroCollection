@@ -11,14 +11,12 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class desc_game extends AppCompatActivity {
+public class descGame extends AppCompatActivity {
     TextView name;
     TextView price;
     TextView console;
@@ -99,7 +97,7 @@ public class desc_game extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
 
 
-                    final ProgressDialog progressDialog = new ProgressDialog(desc_game.this);
+                    final ProgressDialog progressDialog = new ProgressDialog(descGame.this);
                     progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressDialog.setIndeterminate(true);
                     progressDialog.setMessage("Suppression...");

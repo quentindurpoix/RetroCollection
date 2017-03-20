@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:title="Laisser le serveur se connecter à l'app"
+        android:key="connexion"/>
+    <SwitchPreference
+        android:defaultValue="true"
+        android:title="Utiliser la 4G du portable"
+        android:key="internet"
+        android:summaryOn="Oui"
+        android:summaryOff="Non"/>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Réinitialiser les settings"
+        android:key="efface"/>
+</PreferenceScreen>

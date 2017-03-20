@@ -2,6 +2,8 @@ package com.durpoix.quentin.retrocollection;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -43,6 +45,7 @@ public static int tempsRestant;
         }
     }
 
+
     /**
      * Handle action Foo in the provided background thread with the provided
      * parameters.
@@ -59,5 +62,16 @@ public static int tempsRestant;
     private void handleActionBaz(String param1, String param2) {
         // TODO: Handle action Baz
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+    @Override
+    public IBinder onBind(Intent intent) {
+        //if (clock == null)
+        return new Liant();
+    }
+
+    public class Liant extends Binder {
+        public int getChrono() {
+            return tempsRestant;
+        }
     }
 }
